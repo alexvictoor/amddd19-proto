@@ -11,6 +11,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import React from "react";
 import DemoTabs from './DemoTabs';
 import SimpleExpansionPanel from './SimpleExpansionPanel';
+import ShowSelector from './ShowSelector';
 
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -106,23 +107,9 @@ function BookingApp() {
 
   return (
     <div>
-      <AppBar position="sticky" style={{ width: '100%' }}>
-        <FormControl className={classes.formControl}>
-          <NativeSelect
-            className={classes.selectShow}
-            value={values.age}
-            name="age"
-            onChange={handleChange("age")}
-          >
-            <option value="" disabled>
-              Show id
-          </option>
-            <option value={10}>Ten</option>
-            <option value={20}>Twenty</option>
-            <option value={30}>Thirty</option>
-          </NativeSelect>
-        </FormControl>
-      </AppBar>
+
+      <ShowSelector />
+      
       <Grid
         container
         direction="column"
@@ -192,27 +179,10 @@ function BookingApp() {
           </Grid>
         </Paper>
         </Grid>
-
-        <Grid item className={classes.auditauriumArea}>
-       
-          <DemoTabs/>
-
-
-        </Grid> 
-
-
               <SimpleExpansionPanel />
        
       </Grid>
     </div>
-  );
-}
-
-function SeatIcon(props: any) {
-  return (
-      <SvgIcon {...props} style={{ fontSize: 18 }} >
-          <path d="M4,18V21H7V18H17V21H20V15H4V18M19,10H22V13H19V10M2,10H5V13H2V10M17,13H7V5A2,2 0 0,1 9,3H15A2,2 0 0,1 17,5V13Z" />
-      </SvgIcon>
   );
 }
 
