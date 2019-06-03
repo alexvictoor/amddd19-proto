@@ -107,7 +107,7 @@ function BookingApp() {
   return (
     <div>
       <AppBar position="sticky" style={{ width: '100%' }}>
-        <FormControl className={classes.formControl} fullWidth >
+        <FormControl className={classes.formControl}>
           <NativeSelect
             className={classes.selectShow}
             value={values.age}
@@ -193,12 +193,12 @@ function BookingApp() {
         </Paper>
         </Grid>
 
-        {/* <Grid item className={classes.auditauriumArea}>
+        <Grid item className={classes.auditauriumArea}>
        
           <DemoTabs/>
 
 
-        </Grid> */}
+        </Grid> 
 
 
               <SimpleExpansionPanel />
