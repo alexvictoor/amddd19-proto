@@ -1,17 +1,13 @@
-import { SvgIcon } from '@material-ui/core';
-
-import AppBar from '@material-ui/core/AppBar';
 import Button from "@material-ui/core/Button";
-import FormControl from "@material-ui/core/FormControl";
 import Grid from '@material-ui/core/Grid';
 import NativeSelect from "@material-ui/core/NativeSelect";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import React from "react";
-import DemoTabs from './DemoTabs';
-import SimpleExpansionPanel from './SimpleExpansionPanel';
 import ShowSelector from './ShowSelector';
+import SimpleExpansionPanel from './SimpleExpansionPanel';
+
 
 
 const useStyles = makeStyles((theme: Theme) => ({
