@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/amddd19-proto/static/css/main.d1204cc1.chunk.css",
-    "main.js": "/amddd19-proto/static/js/main.0d543311.chunk.js",
-    "main.js.map": "/amddd19-proto/static/js/main.0d543311.chunk.js.map",
+    "main.js": "/amddd19-proto/static/js/main.20789b49.chunk.js",
+    "main.js.map": "/amddd19-proto/static/js/main.20789b49.chunk.js.map",
     "runtime~main.js": "/amddd19-proto/static/js/runtime~main.994b933c.js",
     "runtime~main.js.map": "/amddd19-proto/static/js/runtime~main.994b933c.js.map",
-    "static/js/2.59c11928.chunk.js": "/amddd19-proto/static/js/2.59c11928.chunk.js",
-    "static/js/2.59c11928.chunk.js.map": "/amddd19-proto/static/js/2.59c11928.chunk.js.map",
+    "static/js/2.4dc1e45a.chunk.js": "/amddd19-proto/static/js/2.4dc1e45a.chunk.js",
+    "static/js/2.4dc1e45a.chunk.js.map": "/amddd19-proto/static/js/2.4dc1e45a.chunk.js.map",
     "index.html": "/amddd19-proto/index.html",
-    "precache-manifest.2f69d906dc4a23eae96bd46227822152.js": "/amddd19-proto/precache-manifest.2f69d906dc4a23eae96bd46227822152.js",
+    "precache-manifest.d7289ec95f54ba3211a93201a84ba376.js": "/amddd19-proto/precache-manifest.d7289ec95f54ba3211a93201a84ba376.js",
     "service-worker.js": "/amddd19-proto/service-worker.js",
     "static/css/main.d1204cc1.chunk.css.map": "/amddd19-proto/static/css/main.d1204cc1.chunk.css.map"
   }
