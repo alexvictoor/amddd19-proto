@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface ShowSelectorProps {
-  currentShowId?: number,
+  currentShow: number | 'Unknown',
   shows: number[],
   selectShow: (showId: number) => void,
 }
@@ -46,7 +46,7 @@ interface ShowSelectorProps {
 export default function ShowSelector(props: ShowSelectorProps) {
   const classes = useStyles();
 
-  const { currentShowId, shows, selectShow } = props;
+  const { currentShow, shows, selectShow } = props;
 
   return (
     <AppBar position="sticky" style={{ width: '100%' }}>
@@ -57,7 +57,7 @@ export default function ShowSelector(props: ShowSelectorProps) {
           name="showId"
           onChange={event => selectShow(Number.parseInt(event.target.value, 10))}
         >
-          <option value="" disabled>
+          <option value="" disabled={currentShow !== 'Unknown'}>
             Show id
           </option>
           {props

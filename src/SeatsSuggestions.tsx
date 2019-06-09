@@ -48,122 +48,119 @@ const ExpansionPanelDetails = withStyles(theme => ({
   },
 }))(MuiExpansionPanelDetails);
 
+export interface Suggestion {
+  totalPrice: number,
+  seats: string[],
+  category: string
+}
+interface SeatsSuggestionsProps {
+  suggestions: Suggestion[]
+}
 
-function SimpleExpansionPanel() {
+const suggestionToString = (suggestion: Suggestion) => (
+  `${suggestion.category} - ${suggestion.totalPrice} - ${suggestion.seats.join(', ')}`
+);
+
+export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
 
   return (
     <div>
-      <ExpansionPanel>
-        <ExpansionPanelSummary
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>Category 1 - A7 A8</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-        <Grid
-        container
-        direction="column">
-                    <div style={{display: 'flex', justifyContent: 'center' }}>
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                        </div>
-                        <div style={{display: 'flex', justifyContent: 'center' }}>
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                        </div>
-                        <div style={{display: 'flex', justifyContent: 'center' }}>
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="error" />
-                            <SeatIcon color="primary" />
-                            <SeatIcon color="secondary" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                        </div>
-                        <div style={{display: 'flex', justifyContent: 'center' }}>
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                        </div>
-                        <div style={{display: 'flex', justifyContent: 'center' }}>
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                            <SeatIcon color="action" />
-                        </div>
-                </Grid>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-      <ExpansionPanel>
-        <ExpansionPanelSummary
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>Expansion Panel 2</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget.
-          </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-   
+      {props.suggestions.map((suggestion, index) => (
+        <ExpansionPanel key={`suggestion_${index}`}>
+          <ExpansionPanelSummary
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>{suggestionToString(suggestion)}</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Grid
+              container
+              direction="column">
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="error" />
+                <SeatIcon color="primary" />
+                <SeatIcon color="secondary" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+                <SeatIcon color="action" />
+              </div>
+            </Grid>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      ))}
     </div>
   );
 }
-
-export default SimpleExpansionPanel;

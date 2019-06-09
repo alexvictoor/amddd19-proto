@@ -73,8 +73,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 
-export default function SeatsForm() {
+interface SeatsFormProps {
+  numberOfSeats: number | 'Unknown',
+  specifyNumberOfSeats: (seats: number) => void,
+  searchSeats: () => void,
+}
+
+export default function SeatsForm(props: SeatsFormProps) {
   const classes = useStyles();
+
+  const { numberOfSeats, searchSeats, specifyNumberOfSeats } = props;
 
   return (
     <Grid item>
@@ -93,8 +101,9 @@ export default function SeatsForm() {
               <NativeSelect
                 className={classes.selectEmpty}
                 name="ticket-number"
+                onChange={event => specifyNumberOfSeats(Number.parseInt(event.target.value, 10))}
               >
-                <option value="" disabled>
+                <option value="" disabled={numberOfSeats !== 'Unknown'}>
                   #
                 </option>
                 <option value={1}>1</option>
@@ -112,6 +121,12 @@ export default function SeatsForm() {
 
               </NativeSelect>
             </Grid>
+{/**
+
+
+
+
+
 
             <Grid item xs={9}>
               Choose a pricing category
@@ -129,8 +144,9 @@ export default function SeatsForm() {
                 <option value={30}>Category 3</option>
               </NativeSelect>
             </Grid>
+*/}
             <Grid item alignContent='flex-end'>
-              <Button variant="contained" color="primary" className={classes.button}>
+              <Button variant="contained" color="primary" className={classes.button} onClick={() => searchSeats()}>
                   SEARCH
               </Button>
             </Grid>
