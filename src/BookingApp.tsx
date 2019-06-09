@@ -6,7 +6,8 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import React from "react";
 import ShowSelector from './ShowSelector';
-import SimpleExpansionPanel from './SimpleExpansionPanel';
+import SeatsSuggestions from './SeatsSuggestions';
+import SeatsForm from "./SeatsForm";
 
 
 
@@ -101,10 +102,14 @@ function BookingApp() {
     });
   };
 
+  const selectShow = (showId: string) => {
+    alert(`coucou ${showId}`);  
+  } 
+
   return (
     <div>
 
-      <ShowSelector />
+      <ShowSelector shows={['1er show', '2eme show', '....']} selectShow={selectShow} />
       
       <Grid
         container
@@ -115,67 +120,8 @@ function BookingApp() {
         //spacing={0}
       >
 
-      <Grid item>
-        <Paper className={classes.section} elevation={5}>
-          <Grid
-            container
-            direction="row"
-            justify="center"
-            alignItems="center"
-
-          >
-            <Grid item xs={9}>
-              How many tickets do you want to buy?
-            </Grid>
-            <Grid container xs={3} justify='flex-end'>
-              <NativeSelect
-                className={classes.selectEmpty}
-                name="ticket-number"
-              >
-                <option value="" disabled>
-                  #
-                </option>
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-                <option value={6}>6</option>
-                <option value={7}>7</option>
-                <option value={8}>8</option>
-                <option value={9}>9</option>
-                <option value={10}>10</option>
-                <option value={11}>11</option>
-                <option value={12}>12</option>
-
-              </NativeSelect>
-            </Grid>
-
-            <Grid item xs={9}>
-              Choose a pricing category
-            </Grid>
-            <Grid container xs={3} justify='flex-end'>
-              <NativeSelect
-                className={classes.selectEmpty}
-                name="category"
-              >
-                <option value="" disabled>
-                  Category
-                </option>
-                <option value={10}>Category 1</option>
-                <option value={20}>Category 2</option>
-                <option value={30}>Category 3</option>
-              </NativeSelect>
-            </Grid>
-            <Grid item alignContent='flex-end'>
-              <Button variant="contained" color="primary" className={classes.button}>
-                  SEARCH
-              </Button>
-            </Grid>
-          </Grid>
-        </Paper>
-        </Grid>
-              <SimpleExpansionPanel />
+      <SeatsForm />
+      <SeatsSuggestions />
        
       </Grid>
     </div>

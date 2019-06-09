@@ -36,32 +36,26 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 }));
 
+interface ShowSelectorProps {
+  currentShow?: string,
+  shows: string[],
+  selectShow: (showId: string) => void,
+}
 
-function ShowSelector() {
+
+export default function ShowSelector(props: ShowSelectorProps) {
   const classes = useStyles();
 
-  const [values, setValues] = React.useState({
-    name: "Cat in the Hat",
-    age: "",
-    multiline: "Controlled",
-    currency: "EUR"
-  });
-
-  const handleChange = (name: string) => (event: any) => {
-    setValues({
-      ...values,
-      [name]: event.target.value
-    });
-  };
+  const { currentShow, shows, selectShow } = props;
 
   return (
       <AppBar position="sticky" style={{ width: '100%' }}>
         <FormControl className={classes.formControl}>
           <NativeSelect
             className={classes.selectShow}
-            value={values.age}
-            name="age"
-            onChange={handleChange("age")}
+            /*value={values.age}*/
+            name="showId"
+            onChange={(event) => selectShow}
           >
             <option value="" disabled>
               Show id
@@ -74,5 +68,3 @@ function ShowSelector() {
       </AppBar>
   );
 }
-
-export default ShowSelector;
