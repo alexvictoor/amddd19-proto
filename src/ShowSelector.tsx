@@ -32,39 +32,42 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: 'auto',
     },
   },
- 
+
 
 }));
 
 interface ShowSelectorProps {
-  currentShow?: string,
-  shows: string[],
-  selectShow: (showId: string) => void,
+  currentShowId?: number,
+  shows: number[],
+  selectShow: (showId: number) => void,
 }
 
 
 export default function ShowSelector(props: ShowSelectorProps) {
   const classes = useStyles();
 
-  const { currentShow, shows, selectShow } = props;
+  const { currentShowId, shows, selectShow } = props;
 
   return (
-      <AppBar position="sticky" style={{ width: '100%' }}>
-        <FormControl className={classes.formControl}>
-          <NativeSelect
-            className={classes.selectShow}
-            /*value={values.age}*/
-            name="showId"
-            onChange={(event) => selectShow}
-          >
-            <option value="" disabled>
-              Show id
+    <AppBar position="sticky" style={{ width: '100%' }}>
+      <FormControl className={classes.formControl}>
+        <NativeSelect
+          className={classes.selectShow}
+          /*value={values.age}*/
+          name="showId"
+          onChange={event => selectShow(Number.parseInt(event.target.value, 10))}
+        >
+          <option value="" disabled>
+            Show id
           </option>
-            <option value={10}>Ten</option>
-            <option value={20}>Twenty</option>
-            <option value={30}>Thirty</option>
-          </NativeSelect>
-        </FormControl>
-      </AppBar>
+          {props
+            .shows
+            .map(show => (
+              <option key={show} value={show}>Show {show}</option>
+          ))}
+
+        </NativeSelect>
+      </FormControl>
+    </AppBar>
   );
 }

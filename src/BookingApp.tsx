@@ -8,6 +8,7 @@ import React from "react";
 import ShowSelector from './ShowSelector';
 import SeatsSuggestions from './SeatsSuggestions';
 import SeatsForm from "./SeatsForm";
+import getServerUrl from "./configuration";
 
 
 
@@ -75,54 +76,73 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 }));
 
+interface BookingAppState {
+  loading: boolean,
+  currentShow: number | 'Unknown',
+  shows: number[],
+}
+
+const initialState: BookingAppState = {
+  loading: true,
+  currentShow: 'Unknown',
+  shows: [],
+}
+
+const serverUrl = getServerUrl(window.location.href);
 
 function BookingApp() {
   const classes = useStyles();
 
-  const inputLabel = React.useRef(null);
-  const [labelWidth, setLabelWidth] = React.useState(0);
-  React.useEffect(() => {
-    if (inputLabel.current !== null) {
-      const current: any = inputLabel.current;
-      setLabelWidth(current.offsetWidth);
-    }
-  }, []);
-
-  const [values, setValues] = React.useState({
-    name: "Cat in the Hat",
-    age: "",
-    multiline: "Controlled",
-    currency: "EUR"
-  });
+  const initialShows: number[] = []
+  const [state, setState] = React.useState(initialState);
 
   const handleChange = (name: string) => (event: any) => {
-    setValues({
+    /*setValues({
       ...values,
       [name]: event.target.value
-    });
+    });*/
   };
 
-  const selectShow = (showId: string) => {
-    alert(`coucou ${showId}`);  
-  } 
+  const selectShow = (showId: number) => {
+    setState({
+      ...state,
+      currentShow: showId,
+    });
+  }
+
+  if (state.loading) {
+    fetch(`${serverUrl}/shows`)
+      .then(resp => resp.json())
+      .then((shows: string[]) => setState({
+        ...initialState,
+        loading: false,
+        shows: shows
+                .map(show => Number.parseInt(show, 10))
+                .sort((a, b) => a - b)
+      })
+    );
+    return (
+      <div>Loading...</div>
+    );
+  }
 
   return (
     <div>
 
-      <ShowSelector shows={['1er show', '2eme show', '....']} selectShow={selectShow} />
-      
+      <ShowSelector shows={state.shows} selectShow={selectShow} />
+
       <Grid
         container
         direction="column"
         justify="center"
-        //alignItems="stretch"
-        //className="formArea"
-        //spacing={0}
+      //alignItems="stretch"
+      //className="formArea"
+      //spacing={0}
       >
 
-      <SeatsForm />
-      <SeatsSuggestions />
-       
+        <SeatsForm />
+        <SeatsSuggestions />
+
       </Grid>
     </div>
   );
