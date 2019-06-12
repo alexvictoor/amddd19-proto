@@ -13,7 +13,8 @@ interface BookingAppState {
   currentShow: number | 'Unknown',
   numberOfSeats: number | 'Unknown',
   shows: number[],
-  suggestions: Suggestion[]
+  suggestions: Suggestion[],
+  auditorium: { rows: any } | 'Unknown',
 }
 
 const initialState: BookingAppState = {
@@ -22,6 +23,7 @@ const initialState: BookingAppState = {
   numberOfSeats: 'Unknown',
   shows: [],
   suggestions: [],
+  auditorium: 'Unknown',
 }
 
 const serverUrl = getServerUrl(window.location.href);
@@ -31,10 +33,16 @@ function BookingApp() {
   const [state, setState] = React.useState(initialState);
 
   const selectShow = (showId: number) => {
-    setState({
-      ...state,
-      currentShow: showId,
-    });
+    fetch(`${serverUrl}/shows/${showId}`)
+      .then(resp => resp.json())
+      .then(auditorium => {
+        setState({
+          ...state,
+          currentShow: showId,
+          auditorium
+        })
+      });
+    // http://localhost:4246/api/auditorium-seating/
   }
 
   const specifyNumberOfSeats = (numberOfSeats: number) => {
@@ -99,7 +107,7 @@ function BookingApp() {
       >
 
         <SeatsForm numberOfSeats={state.numberOfSeats} searchSeats={searchSeats} specifyNumberOfSeats={specifyNumberOfSeats} />
-        <SeatsSuggestions suggestions={state.suggestions} />
+        <SeatsSuggestions suggestions={state.suggestions} auditorium={state.auditorium} />
 
       </Grid>
     </div>

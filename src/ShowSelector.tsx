@@ -60,8 +60,7 @@ export default function ShowSelector(props: ShowSelectorProps) {
           <option value="" disabled={currentShow !== 'Unknown'}>
             Show id
           </option>
-          {props
-            .shows
+          {shows
             .map(show => (
               <option key={show} value={show}>Show {show}</option>
           ))}

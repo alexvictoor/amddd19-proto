@@ -53,20 +53,59 @@ export interface Suggestion {
   seats: string[],
   category: string
 }
+
+export interface Seat {
+  name: string,
+  category: number,
+  reservationStatus: number,
+} 
+export interface Auditorium {
+  rows: {[row: string]: Seat[]},
+} 
 interface SeatsSuggestionsProps {
-  suggestions: Suggestion[]
+  suggestions: Suggestion[],
+  auditorium: 'Unknown' | Auditorium
 }
 
 const suggestionToString = (suggestion: Suggestion) => (
-  `${suggestion.category} - ${suggestion.totalPrice} - ${suggestion.seats.join(', ')}`
+  `${suggestion.category} - ${suggestion.totalPrice}€ - ${suggestion.seats.join(', ')}`
 );
 
 export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
 
+  const [expanded, setExpanded] = React.useState<number | false>(0);
+
+  const handleChange = (panelIndex: number) => (event: React.ChangeEvent<{}>, newExpanded: boolean) => {
+    setExpanded(newExpanded ? panelIndex : false);
+  };
+
+  const { auditorium } = props;
+  if (auditorium === 'Unknown') {
+    return (<div/>); 
+  }
+
+  const seatColor = (seat: Seat, suggestion: Suggestion) => {
+    if (seat.category === 1) {
+      return 'primary';
+    }
+    return 'action';
+  }
+
+  const seatBackgroundColor = (seat: Seat, suggestion: Suggestion) => {
+    if (suggestion.seats.includes(seat.name)) {
+      return 'yellow';
+    }
+    if (seat.reservationStatus > 0) {
+      return 'pink';
+    }
+   
+    return 'white';
+  }
+
   return (
     <div>
       {props.suggestions.map((suggestion, index) => (
-        <ExpansionPanel key={`suggestion_${index}`}>
+        <ExpansionPanel key={`suggestion_${index}`} expanded={index === expanded} onChange={handleChange(index)}>
           <ExpansionPanelSummary
             aria-controls="panel1a-content"
             id="panel1a-header"
@@ -77,86 +116,15 @@ export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
             <Grid
               container
               direction="column">
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
+
+            { Object.entries(auditorium.rows).map(([name, row]) => (
+              <div key={`row_${index}_${name}`} style={{ display: 'flex', justifyContent: 'center' }}>
+                { row.map(seat => (
+                  <SeatIcon key={seat.name} color={seatColor(seat, suggestion)}  style={{ backgroundColor: seatBackgroundColor(seat, suggestion) }} />
+                )) }
               </div>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="error" />
-                <SeatIcon color="primary" />
-                <SeatIcon color="secondary" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-                <SeatIcon color="action" />
-              </div>
+            ))}
+
             </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
