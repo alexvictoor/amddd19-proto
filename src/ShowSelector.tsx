@@ -16,14 +16,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   selectShow: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    backgroundColor: fade(theme.palette.common.white, 0.85),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+      backgroundColor: fade(theme.palette.common.white, 0.55),
     },
     /*"&:before": {
       borderColor:theme.palette.common.white
     },*/
-    color: 'white',
+    //color: 'yellow',
     marginRight: theme.spacing(2),
     marginLeft: 0,
     width: '75%',
