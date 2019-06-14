@@ -121,32 +121,9 @@ export default function SeatsForm(props: SeatsFormProps) {
 
               </NativeSelect>
             </Grid>
-{/**
 
-
-
-
-
-
-            <Grid item xs={9}>
-              Choose a pricing category
-            </Grid>
-            <Grid container xs={3} justify='flex-end'>
-              <NativeSelect
-                className={classes.selectEmpty}
-                name="category"
-              >
-                <option value="" disabled>
-                  Category
-                </option>
-                <option value={10}>Category 1</option>
-                <option value={20}>Category 2</option>
-                <option value={30}>Category 3</option>
-              </NativeSelect>
-            </Grid>
-*/}
             <Grid item alignContent='flex-end'>
-              <Button variant="contained" color="primary" className={classes.button} onClick={() => searchSeats()}>
+              <Button disabled={numberOfSeats === 'Unknown'} variant="contained" color="primary" className={classes.button} onClick={() => searchSeats()}>
                   SEARCH
               </Button>
             </Grid>
