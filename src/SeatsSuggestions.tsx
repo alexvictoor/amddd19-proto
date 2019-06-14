@@ -85,18 +85,22 @@ export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
   }
 
   const seatColor = (seat: Seat, suggestion: Suggestion) => {
-    if (seat.category === 1) {
-      return 'primary';
+    if (seat.reservationStatus > 0) {
+      return '#b71c1c';
     }
-    return 'action';
+    if (seat.category === 1) {
+      return '#ffa000';
+    }
+    if (seat.category === 2) {
+      return '#607d8b';
+    }
+    // 3...
+    return '#009688';
   }
 
   const seatBackgroundColor = (seat: Seat, suggestion: Suggestion) => {
     if (suggestion.seats.includes(seat.name)) {
-      return 'yellow';
-    }
-    if (seat.reservationStatus > 0) {
-      return 'pink';
+      return '#ffcdd2';
     }
    
     return 'white';
@@ -120,7 +124,7 @@ export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
             { Object.entries(auditorium.rows).map(([name, row]) => (
               <div key={`row_${index}_${name}`} style={{ display: 'flex', justifyContent: 'center' }}>
                 { row.map(seat => (
-                  <SeatIcon key={seat.name} color={seatColor(seat, suggestion)}  style={{ backgroundColor: seatBackgroundColor(seat, suggestion) }} />
+                  <SeatIcon key={seat.name} htmlColor={seatColor(seat, suggestion)}  style={{ backgroundColor: seatBackgroundColor(seat, suggestion) }} />
                 )) }
               </div>
             ))}
