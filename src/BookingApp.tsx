@@ -95,19 +95,29 @@ function BookingApp() {
   return (
     <div>
 
-      <ShowSelector currentShow={state.currentShow} shows={state.shows} selectShow={selectShow} />
+      <ShowSelector 
+        currentShow={state.currentShow} 
+        shows={state.shows} 
+        selectShow={selectShow} 
+      />
 
       <Grid
         container
         direction="column"
         justify="center"
-      //alignItems="stretch"
-      //className="formArea"
-      //spacing={0}
       >
 
-        <SeatsForm numberOfSeats={state.numberOfSeats} searchSeats={searchSeats} specifyNumberOfSeats={specifyNumberOfSeats} />
-        <SeatsSuggestions suggestions={state.suggestions} auditorium={state.auditorium} />
+        <SeatsForm 
+          currentShow={state.currentShow} 
+          numberOfSeats={state.numberOfSeats} 
+          searchSeats={searchSeats} 
+          specifyNumberOfSeats={specifyNumberOfSeats} 
+        />
+
+        <SeatsSuggestions 
+          suggestions={state.suggestions} 
+          auditorium={state.auditorium} 
+        />
 
       </Grid>
     </div>

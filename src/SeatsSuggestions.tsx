@@ -84,7 +84,7 @@ export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
     return (<div/>); 
   }
 
-  const seatColor = (seat: Seat, suggestion: Suggestion) => {
+  const seatColor = (seat: Seat) => {
     if (seat.reservationStatus > 0) {
       return '#b71c1c';
     }
@@ -106,6 +106,24 @@ export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
     return 'white';
   }
 
+  if (props.suggestions.length === 0) {
+    return (
+      <Grid
+              container
+              direction="column">
+
+            { Object.entries(auditorium.rows).map(([name, row]) => (
+              <div key={`auditorium_row_${name}`} style={{ display: 'flex', justifyContent: 'center' }}>
+                { row.map(seat => (
+                  <SeatIcon key={seat.name} htmlColor={seatColor(seat)} />
+                )) }
+              </div>
+            ))}
+
+            </Grid>
+    );
+  }
+
   return (
     <div>
       {props.suggestions.map((suggestion, index) => (
@@ -124,7 +142,7 @@ export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
             { Object.entries(auditorium.rows).map(([name, row]) => (
               <div key={`row_${index}_${name}`} style={{ display: 'flex', justifyContent: 'center' }}>
                 { row.map(seat => (
-                  <SeatIcon key={seat.name} htmlColor={seatColor(seat, suggestion)}  style={{ backgroundColor: seatBackgroundColor(seat, suggestion) }} />
+                  <SeatIcon key={seat.name} htmlColor={seatColor(seat)}  style={{ backgroundColor: seatBackgroundColor(seat, suggestion) }} />
                 )) }
               </div>
             ))}
