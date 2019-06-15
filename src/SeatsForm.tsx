@@ -9,47 +9,10 @@ import React from "react";
 
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    // minWidth: 100
-  },
+  
   selectEmpty: {
     marginTop: theme.spacing(2),
     alignItems: 'flex-end',
-  },
-  selectShow: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    /*"&:before": {
-      borderColor:theme.palette.common.white
-    },*/
-    color: 'white',
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '75%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
-  },
-  container: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1)
-  },
-  dense: {
-    marginTop: theme.spacing(2)
   },
 
   button: {
@@ -60,15 +23,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(1, 3),
     margin: theme.spacing(5, 5),
   },
-
-  formArea: {
-    margin: theme.spacing(5, 5),
-  },
-
-  auditauriumArea: {
-    margin: theme.spacing(1, 1),
-  }
-
 
 }));
 
@@ -108,9 +62,10 @@ export default function SeatsForm(props: SeatsFormProps) {
               <NativeSelect
                 className={classes.selectEmpty}
                 name="ticket-number"
+                value={numberOfSeats}
                 onChange={event => specifyNumberOfSeats(Number.parseInt(event.target.value, 10))}
               >
-                <option value="" disabled={numberOfSeats !== 'Unknown'}>
+                <option value="Unknown" disabled={numberOfSeats !== 'Unknown'}>
                   #
                 </option>
                 <option value={1}>1</option>

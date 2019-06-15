@@ -19,11 +19,11 @@ interface BookingAppState {
 
 const initialState: BookingAppState = {
   loading: true,
-  currentShow: 'Unknown',
-  numberOfSeats: 'Unknown',
   shows: [],
-  suggestions: [],
+  currentShow: 'Unknown',
   auditorium: 'Unknown',
+  numberOfSeats: 'Unknown',
+  suggestions: [],
 }
 
 const serverUrl = getServerUrl(window.location.href);
@@ -39,7 +39,9 @@ function BookingApp() {
         setState({
           ...state,
           currentShow: showId,
-          auditorium
+          auditorium,
+          numberOfSeats: 'Unknown',
+          suggestions: [],
         })
       });
     // http://localhost:4246/api/auditorium-seating/
