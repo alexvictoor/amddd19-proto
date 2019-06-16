@@ -94,6 +94,8 @@ function BookingApp() {
     );
   }
 
+  const displaySeatForm = (state.currentShow !== 'Unknown') && (state.suggestions.length === 0)
+
   return (
     <div>
 
@@ -108,18 +110,19 @@ function BookingApp() {
         direction="column"
         justify="center"
       >
-
-        <SeatsForm 
-          currentShow={state.currentShow} 
-          numberOfSeats={state.numberOfSeats} 
-          searchSeats={searchSeats} 
-          specifyNumberOfSeats={specifyNumberOfSeats} 
-        />
+        
+        <br/>
 
         <SeatsSuggestions 
           suggestions={state.suggestions} 
           auditorium={state.auditorium} 
         />
+
+        {displaySeatForm && <SeatsForm 
+          numberOfSeats={state.numberOfSeats} 
+          searchSeats={searchSeats} 
+          specifyNumberOfSeats={specifyNumberOfSeats} 
+        />}
 
       </Grid>
     </div>

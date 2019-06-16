@@ -28,7 +28,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 
 interface SeatsFormProps {
-  currentShow: number | 'Unknown',
   numberOfSeats: number | 'Unknown',
   specifyNumberOfSeats: (seats: number) => void,
   searchSeats: () => void,
@@ -37,13 +36,7 @@ interface SeatsFormProps {
 export default function SeatsForm(props: SeatsFormProps) {
   const classes = useStyles();
 
-  const { currentShow, numberOfSeats, searchSeats, specifyNumberOfSeats } = props;
-
-  if (currentShow === 'Unknown') {
-    return (
-      <div/>
-    )
-  }
+  const { numberOfSeats, searchSeats, specifyNumberOfSeats } = props;
 
   return (
     <Grid item>
