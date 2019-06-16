@@ -14,6 +14,7 @@ interface BookingAppState {
   numberOfSeats: number | 'Unknown',
   shows: number[],
   suggestions: Suggestion[],
+  currentSuggestion: number | 'Unknown',
   auditorium: { rows: any } | 'Unknown',
 }
 
@@ -24,6 +25,7 @@ const initialState: BookingAppState = {
   auditorium: 'Unknown',
   numberOfSeats: 'Unknown',
   suggestions: [],
+  currentSuggestion: 'Unknown',
 }
 
 const serverUrl = getServerUrl(window.location.href);
@@ -42,6 +44,7 @@ function BookingApp() {
           auditorium,
           numberOfSeats: 'Unknown',
           suggestions: [],
+          currentSuggestion: 'Unknown',
         })
       });
     // http://localhost:4246/api/auditorium-seating/
@@ -68,6 +71,7 @@ function BookingApp() {
       .then(suggestionsGroups => {
         setState({
           ...state,
+          currentSuggestion: 0,
           suggestions: [
             ...mapSuggestionsGroups(1, suggestionsGroups['suggestionsForFirstCategory']),
             ...mapSuggestionsGroups(2, suggestionsGroups['suggestionsForSecondCategory']),
@@ -76,6 +80,13 @@ function BookingApp() {
           ]
         })
       });
+  }
+
+  const selectSuggestion = (suggestion: number) => {
+    setState({
+      ...state,
+      currentSuggestion: suggestion,
+    });
   }
 
   if (state.loading) {
@@ -115,7 +126,9 @@ function BookingApp() {
 
         <SeatsSuggestions 
           suggestions={state.suggestions} 
+          currentSuggestion={state.currentSuggestion} 
           auditorium={state.auditorium} 
+          selectSuggestion={selectSuggestion}
         />
 
         {displaySeatForm && <SeatsForm 

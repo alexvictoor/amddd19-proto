@@ -70,6 +70,8 @@ export interface Auditorium {
   rows: { [row: string]: Seat[] },
 }
 interface SeatsSuggestionsProps {
+  currentSuggestion: 'Unknown' | number,
+  selectSuggestion: (suggestion: number) => void,
   suggestions: Suggestion[],
   auditorium: 'Unknown' | Auditorium
 }
@@ -102,10 +104,10 @@ const seatBackgroundColor = (seat: Seat, suggestion: Suggestion) => {
 
 export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
 
-  const [expanded, setExpanded] = React.useState<number | false>(0);
-
   const handleChange = (panelIndex: number) => (event: React.ChangeEvent<{}>, newExpanded: boolean) => {
-    setExpanded(newExpanded ? panelIndex : false);
+    if (newExpanded) {
+      props.selectSuggestion(panelIndex);
+    }
   };
 
   const { auditorium } = props;
@@ -134,7 +136,7 @@ export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
   return (
     <div>
       {props.suggestions.map((suggestion, index) => (
-        <ExpansionPanel key={`suggestion_${index}`} expanded={index === expanded} onChange={handleChange(index)}>
+        <ExpansionPanel key={`suggestion_${index}`} expanded={index === props.currentSuggestion} onChange={handleChange(index)}>
           <ExpansionPanelSummary
             aria-controls="panel1a-content"
             id="panel1a-header"
