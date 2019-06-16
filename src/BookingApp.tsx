@@ -94,7 +94,7 @@ function BookingApp() {
     );
   }
 
-  const displaySeatForm = (state.currentShow !== 'Unknown') && (state.suggestions.length === 0)
+  const displaySeatForm = (state.currentShow !== 'Unknown') && (state.suggestions.length === 0);
 
   return (
     <div>

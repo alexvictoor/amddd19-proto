@@ -1,5 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import MuiButton from "@material-ui/core/Button";
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -48,6 +49,12 @@ const ExpansionPanelDetails = withStyles(theme => ({
   },
 }))(MuiExpansionPanelDetails);
 
+const Button = withStyles(theme => ({
+  root: {
+    margin: theme.spacing(2),
+  },
+}))(MuiButton);
+
 export interface Suggestion {
   totalPrice: number,
   seats: string[],
@@ -58,18 +65,40 @@ export interface Seat {
   name: string,
   category: number,
   reservationStatus: number,
-} 
+}
 export interface Auditorium {
-  rows: {[row: string]: Seat[]},
-} 
+  rows: { [row: string]: Seat[] },
+}
 interface SeatsSuggestionsProps {
   suggestions: Suggestion[],
   auditorium: 'Unknown' | Auditorium
 }
 
 const suggestionToString = (suggestion: Suggestion) => (
-  `${suggestion.category} - ${suggestion.totalPrice}€ - ${suggestion.seats.join(', ')}`
+  `Suggestion for ${suggestion.category} - ${suggestion.totalPrice}€ - ${suggestion.seats.join(', ')}`
 );
+
+const seatColor = (seat: Seat) => {
+  if (seat.reservationStatus > 0) {
+    return '#b71c1c';
+  }
+  if (seat.category === 1) {
+    return '#ffa000';
+  }
+  if (seat.category === 2) {
+    return '#607d8b';
+  }
+  // 3...
+  return '#009688';
+}
+
+const seatBackgroundColor = (seat: Seat, suggestion: Suggestion) => {
+  if (suggestion.seats.includes(seat.name)) {
+    return '#ffcdd2';
+  }
+
+  return 'white';
+}
 
 export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
 
@@ -81,46 +110,24 @@ export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
 
   const { auditorium } = props;
   if (auditorium === 'Unknown') {
-    return (<div/>); 
-  }
-
-  const seatColor = (seat: Seat) => {
-    if (seat.reservationStatus > 0) {
-      return '#b71c1c';
-    }
-    if (seat.category === 1) {
-      return '#ffa000';
-    }
-    if (seat.category === 2) {
-      return '#607d8b';
-    }
-    // 3...
-    return '#009688';
-  }
-
-  const seatBackgroundColor = (seat: Seat, suggestion: Suggestion) => {
-    if (suggestion.seats.includes(seat.name)) {
-      return '#ffcdd2';
-    }
-   
-    return 'white';
+    return (<div />);
   }
 
   if (props.suggestions.length === 0) {
     return (
       <Grid
-              container
-              direction="column">
+        container
+        direction="column">
 
-            { Object.entries(auditorium.rows).map(([name, row]) => (
-              <div key={`auditorium_row_${name}`} style={{ display: 'flex', justifyContent: 'center' }}>
-                { row.map(seat => (
-                  <SeatIcon key={seat.name} htmlColor={seatColor(seat)} />
-                )) }
-              </div>
+        {Object.entries(auditorium.rows).map(([name, row]) => (
+          <div key={`auditorium_row_${name}`} style={{ display: 'flex', justifyContent: 'center' }}>
+            {row.map(seat => (
+              <SeatIcon key={seat.name} htmlColor={seatColor(seat)} />
             ))}
+          </div>
+        ))}
 
-            </Grid>
+      </Grid>
     );
   }
 
@@ -139,14 +146,22 @@ export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
               container
               direction="column">
 
-            { Object.entries(auditorium.rows).map(([name, row]) => (
-              <div key={`row_${index}_${name}`} style={{ display: 'flex', justifyContent: 'center' }}>
-                { row.map(seat => (
-                  <SeatIcon key={seat.name} htmlColor={seatColor(seat)}  style={{ backgroundColor: seatBackgroundColor(seat, suggestion) }} />
-                )) }
-              </div>
-            ))}
+              {Object.entries(auditorium.rows).map(([name, row]) => (
+                <div key={`row_${index}_${name}`} style={{ display: 'flex', justifyContent: 'center' }}>
+                  {row.map(seat => (
+                    <SeatIcon key={seat.name} htmlColor={seatColor(seat)} style={{ backgroundColor: seatBackgroundColor(seat, suggestion) }} />
+                  ))}
+                </div>
+              ))}
 
+              <Grid
+                container
+                direction="row"
+                justify="center">
+                <Button disabled={true} variant="contained" color="primary" >
+                  BOOK SEATS
+                    </Button>
+              </Grid>
             </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
