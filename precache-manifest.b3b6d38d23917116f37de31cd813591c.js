@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "beaa25960ddb23b9ffcf9dd52339d4ea",
+    "revision": "6603066928c69709ca5d9f5777848fe2",
     "url": "/amddd19-proto/index.html"
   },
   {
-    "revision": "a422ef03d3c6293ed11c",
+    "revision": "910eafded002f81781d8",
     "url": "/amddd19-proto/static/css/main.d1204cc1.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/amddd19-proto/static/js/2.c931f5f3.chunk.js"
   },
   {
-    "revision": "a422ef03d3c6293ed11c",
-    "url": "/amddd19-proto/static/js/main.1a3d581e.chunk.js"
+    "revision": "910eafded002f81781d8",
+    "url": "/amddd19-proto/static/js/main.2191aeff.chunk.js"
   },
   {
     "revision": "707c3d049a1c15c38f77",
