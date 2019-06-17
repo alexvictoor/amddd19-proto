@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 
 interface SeatsFormProps {
-  numberOfSeats: number | 'Unknown',
+  numberOfSeats: number | void,
   specifyNumberOfSeats: (seats: number) => void,
   searchSeats: () => void,
 }
@@ -58,7 +58,7 @@ export default function SeatsForm(props: SeatsFormProps) {
                 value={numberOfSeats}
                 onChange={event => specifyNumberOfSeats(Number.parseInt(event.target.value, 10))}
               >
-                <option value="Unknown" disabled={numberOfSeats !== 'Unknown'}>
+                <option value="Unknown" disabled={!!numberOfSeats}>
                   #
                 </option>
                 <option value={1}>1</option>
@@ -78,7 +78,7 @@ export default function SeatsForm(props: SeatsFormProps) {
             </Grid>
 
             <Grid item alignContent='flex-end'>
-              <Button disabled={numberOfSeats === 'Unknown'} variant="contained" color="primary" className={classes.button} onClick={() => searchSeats()}>
+              <Button disabled={!numberOfSeats} variant="contained" color="primary" className={classes.button} onClick={() => searchSeats()}>
                   SEARCH
               </Button>
             </Grid>

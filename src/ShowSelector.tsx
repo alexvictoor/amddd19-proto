@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface ShowSelectorProps {
-  currentShow: number | 'Unknown',
+  currentShow: number | void,
   shows: number[],
   selectShow: (showId: number) => void,
 }
@@ -53,11 +53,10 @@ export default function ShowSelector(props: ShowSelectorProps) {
       <FormControl className={classes.formControl}>
         <NativeSelect
           className={classes.selectShow}
-          /*value={values.age}*/
           name="showId"
           onChange={event => selectShow(Number.parseInt(event.target.value, 10))}
         >
-          <option value="" disabled={currentShow !== 'Unknown'}>
+          <option value="" disabled={!!currentShow}>
             Show id
           </option>
           {shows

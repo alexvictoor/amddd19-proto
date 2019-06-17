@@ -7,6 +7,7 @@ import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import SeatIcon from './SeatIcon';
 import { Grid } from '@material-ui/core';
+import { Suggestion, Auditorium, Seat } from './BookingApp';
 
 const ExpansionPanel = withStyles({
   root: {
@@ -55,25 +56,12 @@ const Button = withStyles(theme => ({
   },
 }))(MuiButton);
 
-export interface Suggestion {
-  totalPrice: number,
-  seats: string[],
-  category: string
-}
-
-export interface Seat {
-  name: string,
-  category: number,
-  reservationStatus: number,
-}
-export interface Auditorium {
-  rows: { [row: string]: Seat[] },
-}
 interface SeatsSuggestionsProps {
-  currentSuggestion: 'Unknown' | number,
+  currentSuggestion: number | void,
   selectSuggestion: (suggestion: number) => void,
   suggestions: Suggestion[],
-  auditorium: 'Unknown' | Auditorium
+  auditorium: Auditorium | void,
+  bookAction: () => void
 }
 
 const suggestionToString = (suggestion: Suggestion) => (
@@ -111,7 +99,7 @@ export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
   };
 
   const { auditorium } = props;
-  if (auditorium === 'Unknown') {
+  if (!auditorium) {
     return (<div />);
   }
 
@@ -160,9 +148,9 @@ export default function SeatsSuggestions(props: SeatsSuggestionsProps) {
                 container
                 direction="row"
                 justify="center">
-                <Button disabled={true} variant="contained" color="primary" >
+                <Button variant="contained" color="primary" onClick={props.bookAction}>
                   BOOK SEATS
-                    </Button>
+                </Button>
               </Grid>
             </Grid>
           </ExpansionPanelDetails>

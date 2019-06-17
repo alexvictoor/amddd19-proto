@@ -2,30 +2,45 @@ import Grid from '@material-ui/core/Grid';
 import React from "react";
 import getServerUrl from "./configuration";
 import SeatsForm from "./SeatsForm";
-import SeatsSuggestions, { Suggestion } from './SeatsSuggestions';
+import SeatsSuggestions from './SeatsSuggestions';
 import ShowSelector from './ShowSelector';
+import BookingDialog from './BookingDialog';
 
+export interface Suggestion {
+  totalPrice: number,
+  seats: string[],
+  category: string
+}
 
-
+export interface Seat {
+  name: string,
+  category: number,
+  reservationStatus: number,
+}
+export interface Auditorium {
+  rows: { [row: string]: Seat[] },
+}
 
 interface BookingAppState {
   loading: boolean,
-  currentShow: number | 'Unknown',
-  numberOfSeats: number | 'Unknown',
+  currentShow: number | void,
+  numberOfSeats: number | void,
   shows: number[],
   suggestions: Suggestion[],
-  currentSuggestion: number | 'Unknown',
-  auditorium: { rows: any } | 'Unknown',
+  currentSuggestion: number | void,
+  auditorium: { rows: any } | void,
+  bookingMode: boolean
 }
 
 const initialState: BookingAppState = {
   loading: true,
   shows: [],
-  currentShow: 'Unknown',
-  auditorium: 'Unknown',
-  numberOfSeats: 'Unknown',
+  currentShow: undefined,
+  auditorium: undefined,
+  numberOfSeats: undefined,
   suggestions: [],
-  currentSuggestion: 'Unknown',
+  currentSuggestion: undefined,
+  bookingMode: false
 }
 
 const serverUrl = getServerUrl(window.location.href);
@@ -42,9 +57,9 @@ function BookingApp() {
           ...state,
           currentShow: showId,
           auditorium,
-          numberOfSeats: 'Unknown',
+          numberOfSeats: undefined,
           suggestions: [],
-          currentSuggestion: 'Unknown',
+          currentSuggestion: undefined,
         })
       });
     // http://localhost:4246/api/auditorium-seating/
@@ -82,10 +97,49 @@ function BookingApp() {
       });
   }
 
-  const selectSuggestion = (suggestion: number) => {
+  const selectSuggestion = (suggestionIndex: number) => {
     setState({
       ...state,
-      currentSuggestion: suggestion,
+      currentSuggestion: suggestionIndex,
+    });
+  }
+
+  const openBookDialog = () => {
+    setState({
+      ...state,
+      bookingMode: true,
+    });
+  }
+
+  const bookSeats = () => {
+    const seats = state.suggestions[state.currentSuggestion || 0].seats;
+    fetch(
+      `${serverUrl}/shows/${state.currentShow}/reservations`, 
+      { 
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }, 
+        body: JSON.stringify(seats) 
+      }
+    )
+      .then(_ => {
+        alert('coucou');
+        setState({
+          ...initialState
+        });
+      });
+    // HACK - à enlever quand le booking marchera
+    setState({
+      ...initialState
+    });
+  }
+
+  const cancelBooking = () => {
+    setState({
+      ...state,
+      bookingMode: false,
     });
   }
 
@@ -105,7 +159,7 @@ function BookingApp() {
     );
   }
 
-  const displaySeatForm = (state.currentShow !== 'Unknown') && (state.suggestions.length === 0);
+  const displaySeatForm = state.currentShow && (state.suggestions.length === 0);
 
   return (
     <div>
@@ -122,13 +176,14 @@ function BookingApp() {
         justify="center"
       >
         
-        <br/>
+        <br/> { /* gruik gruik marche pas sous ff */}
 
         <SeatsSuggestions 
           suggestions={state.suggestions} 
           currentSuggestion={state.currentSuggestion} 
           auditorium={state.auditorium} 
           selectSuggestion={selectSuggestion}
+          bookAction={openBookDialog}
         />
 
         {displaySeatForm && <SeatsForm 
@@ -138,6 +193,13 @@ function BookingApp() {
         />}
 
       </Grid>
+
+      {state.bookingMode && <BookingDialog 
+        suggestion={state.suggestions[state.currentSuggestion || 0]} 
+        bookAction={bookSeats}
+        cancelBooking={cancelBooking}
+      />}
+
     </div>
   );
 }
