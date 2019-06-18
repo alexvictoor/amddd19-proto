@@ -1,10 +1,11 @@
-import Grid from '@material-ui/core/Grid';
 import React from "react";
+import Grid from '@material-ui/core/Grid';
 import getServerUrl from "./configuration";
 import SeatsForm from "./SeatsForm";
 import SeatsSuggestions from './SeatsSuggestions';
 import ShowSelector from './ShowSelector';
 import BookingDialog from './BookingDialog';
+import Confirmation from './Confirmation';
 
 export interface Suggestion {
   totalPrice: number,
@@ -29,7 +30,8 @@ interface BookingAppState {
   suggestions: Suggestion[],
   currentSuggestion: number | void,
   auditorium: { rows: any } | void,
-  bookingMode: boolean
+  bookingDialog: boolean
+  bookingConfirmed: boolean
 }
 
 const initialState: BookingAppState = {
@@ -40,7 +42,8 @@ const initialState: BookingAppState = {
   numberOfSeats: undefined,
   suggestions: [],
   currentSuggestion: undefined,
-  bookingMode: false
+  bookingDialog: false,
+  bookingConfirmed: false
 }
 
 const serverUrl = getServerUrl(window.location.href);
@@ -107,7 +110,7 @@ function BookingApp() {
   const openBookDialog = () => {
     setState({
       ...state,
-      bookingMode: true,
+      bookingDialog: true,
     });
   }
 
@@ -123,25 +126,30 @@ function BookingApp() {
         }, 
         body: JSON.stringify(seats) 
       }
-    )
-      .then(_ => {
-        alert('coucou');
-        setState({
-          ...initialState
-        });
+    ).then(_ => {
+      setState({
+        ...state,
+        numberOfSeats: undefined,
+        suggestions: [],
+        currentSuggestion: undefined, 
+        bookingDialog: false,
+        bookingConfirmed: true
       });
-    // HACK - à enlever quand le booking marchera
-    setState({
-      ...initialState
     });
   }
 
   const cancelBooking = () => {
     setState({
       ...state,
-      bookingMode: false,
+      bookingDialog: false,
     });
   }
+
+  const closeBookingConfirmation = () => setState({ 
+    ...state,
+    bookingConfirmed: false 
+  });
+
 
   if (state.loading) {
     fetch(`${serverUrl}/shows`)
@@ -194,11 +202,16 @@ function BookingApp() {
 
       </Grid>
 
-      {state.bookingMode && <BookingDialog 
+      {state.bookingDialog && <BookingDialog 
         suggestion={state.suggestions[state.currentSuggestion || 0]} 
         bookAction={bookSeats}
         cancelBooking={cancelBooking}
       />}
+
+      <Confirmation 
+        open={state.bookingConfirmed} 
+        onClose={closeBookingConfirmation} 
+      />
 
     </div>
   );
