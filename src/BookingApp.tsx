@@ -56,14 +56,14 @@ function BookingApp() {
     fetch(`${serverUrl}/shows/${showId}`)
       .then(resp => resp.json())
       .then(auditorium => {
-        setState({
-          ...state,
+        setState(previousState => ({
+          ...previousState,
           currentShow: showId,
           auditorium,
           numberOfSeats: undefined,
           suggestions: [],
           currentSuggestion: undefined,
-        })
+        }));
       });
     // http://localhost:4246/api/auditorium-seating/
   }
@@ -135,6 +135,7 @@ function BookingApp() {
         bookingDialog: false,
         bookingConfirmed: true
       });
+      selectShow(state.currentShow || 0);
     });
   }
 
@@ -145,10 +146,12 @@ function BookingApp() {
     });
   }
 
-  const closeBookingConfirmation = () => setState({ 
-    ...state,
-    bookingConfirmed: false 
-  });
+  const closeBookingConfirmation = () => {
+    setState({ 
+      ...state,
+      bookingConfirmed: false 
+    });
+  }
 
 
   if (state.loading) {
